@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Davis_compiler", "Davis_compiler\Davis_compiler.csproj", "{DC5EEB52-9528-49E7-B098-40438C0DB810}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC5EEB52-9528-49E7-B098-40438C0DB810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC5EEB52-9528-49E7-B098-40438C0DB810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC5EEB52-9528-49E7-B098-40438C0DB810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC5EEB52-9528-49E7-B098-40438C0DB810}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,152 @@
+Package comp5210;
+
+Helpers
+    digit = ['0' .. '9'] ;
+    ascii_char = [32 .. 127] ;
+	ascii_char_string = 32|33|[35 .. 127];
+    letter = [['a' .. 'z'] + ['A' .. 'Z']] ;
+	eol = 10|13 ; 
+Tokens
+	bang = '!';
+	whitespace = (' '|9|10|13)+;
+	comment = '//' ascii_char*;
+	op = '&&'|'<'|'+'|'-'|'*';
+	class = 'class';
+	public = 'public';
+	private = 'private';
+	static = 'static';
+	main = 'main';
+	return = 'return';
+	assignment = '=';
+
+	//strings
+	string = '"' ascii_char_string+|('\"')* '"';
+
+	//methods
+	//other methods
+
+	//variables
+	var = (letter+ '_'?)+;
+
+	//conditional statements
+	if = 'if';
+	else = 'else';
+
+	//loops
+	while = 'while';
+
+	//pairing stuff
+	open_parenthesis = '(';
+	close_parenthesis = ')';
+	open_bracket = '[';
+	close_bracket = ']';
+	open_brace = '{';
+	close_brace = '}';
+	
+	//math and logic expressions
+	multiply = '*';
+	divide = '/';
+	add = '+';
+	subtract = '-';
+	and = '&&';
+	or = '||';
+	equals = '==';
+	greater = '>';
+	less = '<';
+	greater_equal = '>=';
+	less_equal = '<=';
+	not_equal = '!=';
+	not = '!';
+
+	//numbers and such
+	float = digit+ '.' digit+ 'e'? '-'? digit+;
+	int = digit+;
+
+	semicolon = ';';
+	
+
+IgnoredTokens
+	whitespace, 
+	comment;
+	
+Productions
+	program = constants main_program methods;
+
+	constants = {integer} var assignment int semicolon constants|
+				{float} var assignment float semicolon constants|
+				{string} var assignment string semicolon constants|
+				{none};
+
+	main_program = main open_parenthesis formal_param close_parenthesis 
+				   open_brace stuff close_brace;
+
+	formal_param = [type]:var [data]:var second_param|
+				   {none};
+
+	//if there are more than one se of parameters
+	second_param = [type]:var [data]:var second_param|
+				   {none};
+	
+	stuff = {ifs} if_state stuff|
+			{whiles} while_state stuff|
+			{methods} method_call stuff|
+			{decls} declarations stuff|
+			{assigns} assignments stuff|
+			{none};
+	
+	declarations = {recursive}declaration declarations| {not}declaration;
+	
+	declaration = {side1} [data]:var [var]:var semicolon| 
+				  {side2} [data]:var [var1]:var open_bracket int close_bracket semicolon;	
+				  
+	assignments = {recursive} assign assignments| {not} assign;
+	
+	assign = {int} var assignment int semicolon|
+		     {float} var assignment float semicolon|
+		     {string} var assignment string semicolon;
+
+	if_state = if open_parenthesis int close_parenthesis open_brace stuff close_brace;
+
+	while_state = while open_parenthesis int close_parenthesis open_brace stuff close_brace;
+
+	express1 = {side1} [one]:express2 and [two]:express2| 
+           {side2} [one]:express2 or [two]:express2;
+
+	express2 = {side1} [one]:express3 equals [two]:express3| 
+           {side2} [one]:express3 less [two]:express3|
+		   {side3} [one]:express3 greater [two]:express3|
+		   {side4} [one]:express3 less_equal [two]:express3|
+		   {side5} [one]:express3 greater_equal [two]:express3|
+		   {side6} [one]:express3 not_equal [two]:express3;
+
+	 express3 = {side1} express3 add express4| 
+		   {side2} express3 subtract express4|
+	       {side3} express4;
+
+	 express4 = {side1} express4 multiply express5| 
+		   {side2} express4 divide express5|
+	       {side3} express5;
+
+
+	express5 = {side1} open_parenthesis express1 close_parenthesis| 
+	       {side2} int|
+	       {side3} float|
+	       {side4} var|
+	       {side5} var open_bracket express1 close_bracket;
+
+
+	method_call = var open_parenthesis param close_parenthesis open_brace stuff close_brace;
+
+	methods ={side1} public var open_parenthesis formal_param close_parenthesis open_bracket stuff close_bracket|
+		     {side2} public static open_parenthesis formal_param close_parenthesis open_bracket stuff close_bracket|
+			 {side3} public static [type]:var open_parenthesis close_parenthesis open_bracket stuff return var semicolon close_bracket|
+			 {side4} public [type]:var open_parenthesis close_parenthesis open_bracket stuff return var semicolon close_bracket;
+
+	param = {var} var more_param |
+			{string} string more_param |
+			{none} ;
+
+	more_param = {others} var | 
+				 {string} string | 
+				 {done} ;
+
