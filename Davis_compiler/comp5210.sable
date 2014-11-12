@@ -147,7 +147,7 @@ Productions
 			{string} string more_param |
 			{none} ;
 
-	more_param = {others} var | 
-				 {string} string | 
+	more_param = {others} var more_param| 
+				 {string} string more_param| 
 				 {done} ;
 

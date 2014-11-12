@@ -123,5 +123,33 @@ namespace Davis_compiler
                 nodehash.Add(node, (iddefn as VariableDefinition).vartype);
             }
         }
+        public override void OutAOthersMoreParam(comp5210.node.AOthersMorePa node)
+        {
+        
+            string varname = node.GetVar().Text;
+            Definition typedefn;
+            // lookup the type
+            if (!stringhash.TryGetValue(typename, out typedefn))
+            {
+                Console.WriteLine("[" + node.GetTypename().Line + "]: " +
+                    typename + " is not defined.");
+            }
+            // check to make sure what we got back is a type
+            else if (!(typedefn is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + " is an invalid type.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined look it up in the sringhash.
+                VariableDefinition vardefn = new VariableDefinition();
+                vardefn.name = varname;
+                vardefn.vartype = typedefn as TypeDefinition;
+                stringhash.Add(vardefn.name, vardefn);
+            }
+        }
     }
 }
