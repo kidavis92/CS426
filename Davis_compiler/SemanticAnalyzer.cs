@@ -252,9 +252,42 @@ namespace Davis_compiler
             //Must have node hash crap
             //string hash has type, node hash has type and data
         }
+    
         public override void OutANegintExpressConsts(comp5210.node.ANegintExpressConsts node)
         {
-            base.OutANegintExpressConsts(node);
+            //Lookup, Type Check, add to Node Hash
+            //Expression use Node Hash to look up if Name Strin hash to look up
+            Definition defn;
+            stringhash.TryGetValue(node.GetType().Name, out defn);
+            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            {
+                Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is not defined.");
+            }
+            // check to make sure what we got back is a type
+            else if (!(defn is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetType() + "]: " +
+                   node.GetType().Name + " is an invalid type.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetType().Name))
+                {
+                    VariableDefinition vardefn = new VariableDefinition();
+                    vardefn.name = node.GetType().Name;
+                    vardefn.vartype = defn as TypeDefinition;
+                    stringhash.Add(vardefn.name, vardefn);
+                }
+                //              
+            }
+            //Checking
+            nodehash.Add(node, (defn as VariableDefinition).vartype);
+            //Must have node hash crap
+            //string hash has type, node hash has type and data
         }
         public override void OutANegfloExpressConsts(comp5210.node.ANegfloExpressConsts node)
         {
