@@ -1,153 +1,129 @@
 Package comp5210;
 
 Helpers
+//all digits
     digit = ['0' .. '9'] ;
+
+//all ascii characters
     ascii_char = [32 .. 127] ;
-	ascii_char_string = 32|33|[35 .. 127];
+
+//all ascii characters except the quotes
+	no_quote = 32|33|[35 .. 127];
+
+//all letters
     letter = [['a' .. 'z'] + ['A' .. 'Z']] ;
+	
+//end of line
 	eol = 10|13 ; 
+	
 Tokens
-	bang = '!';
-	whitespace = (' '|9|10|13)+;
-	comment = '//' ascii_char*;
-	op = '&&'|'<'|'+'|'-'|'*';
-	class = 'class';
-	public = 'public';
-	private = 'private';
-	static = 'static';
-	main = 'main';
-	return = 'return';
-	assignment = '=';
 
-	//strings
-	string = '"' ascii_char_string+|('\"')* '"';
-
-	//methods
-	//other methods
-
-	//variables
-	var = (letter+ '_'?)+;
-
-	//conditional statements
+//Reserved Words
 	if = 'if';
 	else = 'else';
-
-	//loops
+	class = 'class';
+	constantinople = 'const';
+	public = 'public';
+	private = 'private';
+	return = 'return';
 	while = 'while';
+	mainmeth = 'main';
+	void_methods = 'void';
 
-	//pairing stuff
-	open_parenthesis = '(';
-	close_parenthesis = ')';
-	open_bracket = '[';
-	close_bracket = ']';
-	open_brace = '{';
-	close_brace = '}';
-	
-	//math and logic expressions
-	multiply = '*';
+//Math operators
+	left_parent = '(';
+	right_parent = ')';
+	times = '*';
 	divide = '/';
-	add = '+';
-	subtract = '-';
-	and = '&&';
-	or = '||';
-	equals = '==';
-	greater = '>';
-	less = '<';
-	greater_equal = '>=';
-	less_equal = '<=';
-	not_equal = '!=';
-	not = '!';
-
-	//numbers and such
-	float = digit+ '.' digit+ 'e'? '-'? digit+;
-	int = digit+;
-
-	semicolon = ';';
+	plus = '+';
+	minus = '-';
 	
+//Boolean operators
+	andy = '&&'|'and';
+	or_nah = '||'|'or';
+	nah = '!'|'not';
+	equators = '==';
+	noteqs = '!=';
+	great_than_eq = '>=';
+	less_than_eq = '<=';
+	greater = '>';
+	lesser = '<';
+
+//assignment	
+	assignments = '=';
+	
+//other line stuff
+	line_ender = ';';
+	left_bracket = '[';
+	right_bracket = ']';	
+	left_curly = '{';
+	right_curly = '}';
+	comma = ',';
+
+//single line comments
+	comment = '//' ascii_char*;
+	
+//strings
+	sillystrings = '"' ((no_quote)* '\"'?)* '"';
+	
+//float literals
+	rootbeerfloats = (digit+ '.' digit+ 'e' '-'? digit+)|(digit+ '.' digit+);
+
+//integer literals
+	ints = digit+;
+
+//variable name and other identifiers	
+	var_names = (letter+ '_'?)+;
+
+//whitespace
+	whitespace = (' '|9|10|13)+;
 
 IgnoredTokens
-	whitespace, 
+	whitespace,
 	comment;
-	// test 3
-// comment
+	
 Productions
-	program = constants main_program methods;
-
-	constants = {integer} var assignment int semicolon constants|
-				{float} var assignment float semicolon constants|
-				{string} var assignment string semicolon constants|
-				{none};
-
-	mainprogram = main open_parenthesis formal_param close_parenthesis 
-				   open_brace stuff close_brace;
-
-	formalparam = [type]:var [data]:var second_param|
-				   {none};
-
-	//if there are more than one se of parameters
-	secondparam = [type]:var [data]:var second_param|
-				   {none};
+	//Main progam grammar that calls declarations of variables and methods
+	program = declarations meth_decs;
 	
-	stuff = {ifs} if_state stuff|
-			{whiles} while_state stuff|
-			{methods} method_call stuff|
-			{decls} declarations stuff|
-			{assigns} assignments stuff|
-			{none};
+	//Recursive grammar that allows for multiple statements to be written
+	statements = {recurs} statements statement | {one} statement;
+	statement = {ifs} if_state | {meth} methods_call | {whiles} while_state | {decl} declaration | {ass} assign ;
 	
-	declarations = {recursive}declaration declarations| {not}declaration;
+	//Statements to handle if, else, and while
+	if_state = {ifs} if left_parent express_logic right_parent left_curly statements right_curly | {elses} if left_parent express_logic right_parent [lcurl1]:left_curly [ifstates]:statements [rcurl1]:right_curly else [lcurl2]:left_curly [elsestates]:statements [rculr2]:right_curly;
+	while_state = while express_logic left_curly statements right_curly;
 	
-	declaration = {side1} [data]:var [var]:var semicolon| 
-				  {side2} [data]:var [var1]:var open_bracket int close_bracket semicolon;	
-				  
-	assignments = {recursive} assign assignments| {not} assign;
+	//Grammar to handle method calls, recursively allows for multiple actual parameters
+	methods_call = {params} var_names left_parent actual_params right_parent line_ender | {noparams} var_names left_parent right_parent line_ender;
+	actual_params = {recur} actual_params comma actual_consts | {one} actual_consts;
+	actual_consts = {expressions} express_logic | {strings} sillystrings;
 	
-	assign = {int} var assignment int semicolon|
-		     {float} var assignment float semicolon|
-		     {string} var assignment string semicolon;
-
-	ifstate = if open_parenthesis int close_parenthesis open_brace stuff close_brace;
-
-	whilestate = while open_parenthesis int close_parenthesis open_brace stuff close_brace;
-	//Please work
-	express1 = {side1} [one]:express2 and [two]:express2| 
-           {side2} [one]:express2 or [two]:express2;
-
-	express2 = {side1} [one]:express3 equals [two]:express3| 
-           {side2} [one]:express3 less [two]:express3|
-		   {side3} [one]:express3 greater [two]:express3|
-		   {side4} [one]:express3 less_equal [two]:express3|
-		   {side5} [one]:express3 greater_equal [two]:express3|
-		   {side6} [one]:express3 not_equal [two]:express3;
-
-	 express3 = {side1} express3 add express4| 
-		   {side2} express3 subtract express4|
-	       {side3} express4;
-
-	 express4 = {side1} express4 multiply express5| 
-		   {side2} express4 divide express5|
-	       {side3} express5;
-
-
-	express5 = {side1} open_parenthesis express1 close_parenthesis| 
-	       {side2} int|
-	       {side3} float|
-	       {side4} var|
-	       {side5} var open_bracket express1 close_bracket;
-
-
-	methodcall = var open_parenthesis param close_parenthesis open_brace stuff close_brace;
-
-	methods ={side1} public var open_parenthesis formal_param close_parenthesis open_bracket stuff close_bracket|
-		     {side2} public static open_parenthesis formal_param close_parenthesis open_bracket stuff close_bracket|
-			 {side3} public static [type]:var open_parenthesis close_parenthesis open_bracket stuff return var semicolon close_bracket|
-			 {side4} public [type]:var open_parenthesis close_parenthesis open_bracket stuff return var semicolon close_bracket;
-
-	param = {var} var more_param |
-			{string} string more_param |
-			{none} ;
-
-	more_param = {others} var | 
-				 {string} string | 
-				 {done} ;
-
+	//Grammar for arrays
+	//arrays = left_bracket express_logic right_bracket;
+	
+	//Recursive grammar that allows for multiple methods to be declared
+	meth_decs = {recurse} meth_decs methods_decl| {one} methods_decl;
+	methods_decl = {params} void_methods var_names left_parent formal_params right_parent left_curly statements right_curly | {noparams} void_methods var_names left_parent right_parent left_curly statements right_curly | {main} void_methods mainmeth left_parent right_parent left_curly statements right_curly | {emptypara} void_methods var_names left_parent formal_params right_parent left_curly right_curly | {emptynopara} void_methods var_names left_parent right_parent left_curly right_curly | {emptymain} void_methods mainmeth left_parent right_parent left_curly right_curly;
+	formal_params = {recur} formal_params comma formal_consts | {one} formal_consts;
+	formal_consts = {vars} [id1]:var_names [id2]:var_names | {arr} [id1]:var_names [id2]:var_names left_bracket right_bracket;
+	
+	//Grammar to handle boolean and math expressions
+	express_logic = {or} [ops1]:express_comp or_nah [ops2]:express_comp | {and} [ops1]:express_comp andy [ops2]:express_comp | {not}  nah express_comp| {comp} express_comp;
+	express_comp = {gte} [ops1]:express_as great_than_eq [ops2]:express_as  | {lte} [ops1]:express_as less_than_eq [ops2]:express_as  | {lt} [ops1]:express_as lesser [ops2]:express_as  | {gt} [ops1]:express_as greater [ops2]:express_as  | {eqs} [ops1]:express_as equators [ops2]:express_as | {noteqs} [ops1]:express_as noteqs [ops2]:express_as | {math} express_as;
+	express_as = {add} express_as plus express_md | {sub} express_as minus express_md | {md} express_md;
+	express_md = {mult} express_md times express_parent | {div} express_md divide express_parent | {parent} express_parent;
+	express_parent = {parent} left_parent express_logic right_parent | {consts} express_consts;
+	express_consts = {negvar} minus var_names | {negint} minus ints | {negflo} minus rootbeerfloats | {var} var_names | {ints} ints | {flo} rootbeerfloats | {array} var_names left_bracket express_logic right_bracket;
+	
+	//Recursive grammar that allows for multiple declarations to be made
+	declarations = {declarations} declarations declaration | {declaration} declaration;
+	declaration = {constants} constantine | {vars} decl_options line_ender;
+	decl_options = {var} [type]:var_names [var]:var_names | {arr} [type]:var_names [var]:var_names left_bracket ints right_bracket;
+	
+	//Grammar that allows for constants to be initialized
+	constantine = constantinople [id1]:var_names [id2]:var_names assignments num_consts line_ender;
+	num_consts = {posint} ints | {negint} minus ints | {posflo} rootbeerfloats | {negflo} minus rootbeerfloats;
+	
+	//Statement that handles assignments
+	assign = {var} var_names assignments express_logic line_ender | {arr} var_names left_bracket [array_bound]:express_logic right_bracket assignments [expression]:express_logic line_ender;
