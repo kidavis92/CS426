@@ -42,7 +42,7 @@ namespace Davis_compiler
 //                node.GetDecls().Apply(this);
 //            }
 //            OutAMoreDecls(node);
-        }
+//        }
 
         // begin our work
         public override void OutAProgram(comp5210.node.AProgram node)
