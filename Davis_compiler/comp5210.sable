@@ -78,14 +78,14 @@ Productions
 				{string} var assignment string semicolon constants|
 				{none};
 
-	main_program = main open_parenthesis formal_param close_parenthesis 
+	mainprogram = main open_parenthesis formal_param close_parenthesis 
 				   open_brace stuff close_brace;
 
-	formal_param = [type]:var [data]:var second_param|
+	formalparam = [type]:var [data]:var second_param|
 				   {none};
 
 	//if there are more than one se of parameters
-	second_param = [type]:var [data]:var second_param|
+	secondparam = [type]:var [data]:var second_param|
 				   {none};
 	
 	stuff = {ifs} if_state stuff|
@@ -106,9 +106,9 @@ Productions
 		     {float} var assignment float semicolon|
 		     {string} var assignment string semicolon;
 
-	if_state = if open_parenthesis int close_parenthesis open_brace stuff close_brace;
+	ifstate = if open_parenthesis int close_parenthesis open_brace stuff close_brace;
 
-	while_state = while open_parenthesis int close_parenthesis open_brace stuff close_brace;
+	whilestate = while open_parenthesis int close_parenthesis open_brace stuff close_brace;
 	//Please work
 	express1 = {side1} [one]:express2 and [two]:express2| 
            {side2} [one]:express2 or [two]:express2;
@@ -136,7 +136,7 @@ Productions
 	       {side5} var open_bracket express1 close_bracket;
 
 
-	method_call = var open_parenthesis param close_parenthesis open_brace stuff close_brace;
+	methodcall = var open_parenthesis param close_parenthesis open_brace stuff close_brace;
 
 	methods ={side1} public var open_parenthesis formal_param close_parenthesis open_bracket stuff close_bracket|
 		     {side2} public static open_parenthesis formal_param close_parenthesis open_bracket stuff close_bracket|
@@ -147,7 +147,7 @@ Productions
 			{string} string more_param |
 			{none} ;
 
-	more_param = {others} var | 
+	moreparam = {others} var | 
 				 {string} string | 
 				 {done} ;
 

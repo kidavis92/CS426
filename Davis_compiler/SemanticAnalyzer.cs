@@ -40,6 +40,70 @@ namespace Davis_compiler
             }
             OutAMoreDecls(node);
         }
+
+
+        public override void OutAProgram(comp5210.node.AProgram node)
+        {}
+        public override void OutAIntegerConstants(comp5210.node.AIntegerConstants node)
+        {}
+        public override void OutAFloatConstants(comp5210.node.AFloatConstants node)
+        {}
+        public override void OutAStringConstants(comp5210.node.AStringConstants node)
+        {}
+        public override void OutANoneConstants(comp5210.node.ANoneConstants node)
+        {}
+        public override void OutAMainProgram(comp5210.node.AMainProgram node)
+        {}
+        //fix
+        public override void OutATypeFormalparam(comp5210.node.ATypeFormalparam node)
+        {}
+        public override void OutANoneformalparm(comp5210.node.ANoneformaparm node)
+        {}
+        public override void OutATypeSecondparam(comp5210.node.ATypeSecondparam node)
+        {}
+        public override void OutANoneSecondparam(comp5210.node.ANoneSecondparam node)
+        {}
+        //end fix
+        public override void OutAIfsStuff(comp5210.node.AIfsStuff node)
+        {}
+        public override void OutAWhilesStuff(comp5210.node.AWhilesStuff node)
+        {}
+        public override void OutAMethodsStuff(comp5210.node.AMethodsStuff node)
+        {}
+        public override void OutADeclsStuff(comp5210.node.ADeclsStuff node)
+        {}
+        public override void OutAAssignsStuff(comp5210.node.AAssignsStuff node)
+        {}
+        public override void OutANoneStuff(comp5210.node.ANoneStuff node)
+        {}
+        public override void OutARecursiveDeclarations(comp5210.node.ARecursiveDeclarations node)
+        {}
+        public override void OutANotDeclarations(comp5210.node.ANotDeclarations node)
+        {}
+        public override void OutASide1Declaration(comp5210.node.ASide1Declaration node)
+        {}
+        public override void OutASide2Declaration(comp5210.node.ASide2Declaration node)
+        {}
+        public override void OutARecursiveAssignments(comp5210.node.ARecursiveAssignments node)
+        {}
+        public override void OutANotAssignments(comp5210.node.ANotAssignments node)
+        {}
+        public override void OutAIntAssign(comp5210.node.AIntAssign node)
+        {}
+        public override void OutAFloatAssign(comp5210.node.AFloatAssign node)
+        {}
+        public override void OutAStringAssign(comp5210.node.AStringAssign node)
+        {}
+        //fix
+        public override void OutAIfstate(comp5210.node.AIfstate node)
+        {}
+        public override void OutAWhilestate(comp5210.node.AWhilestate node)
+        {}
+        //end fix
+
+
+
+
         // 
         public override void OutADecl(comp5210.node.ADecl node)
         {
