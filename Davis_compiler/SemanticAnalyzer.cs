@@ -15,7 +15,7 @@ namespace Davis_compiler
 
         // before theclass starts, create the two hashes and 
         // add int and float
-        public override void InATheclass(comp5210.node.AProgram node)
+        public override void InAProgram(comp5210.node.AProgram node)
         {
             BasicType inttype = new BasicType();
             inttype.name = "int";
@@ -123,7 +123,7 @@ namespace Davis_compiler
                 nodehash.Add(node, (iddefn as VariableDefinition).vartype);
             }
         }
-        public override void OutAOthersMoreParam(comp5210.node.AOthersMorePa node)
+        public override void Out
         {
         
             string varname = node.GetVar().Text;
