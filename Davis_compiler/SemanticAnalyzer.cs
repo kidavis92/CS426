@@ -15,19 +15,22 @@ namespace Davis_compiler
 
         // before theclass starts, create the two hashes and 
         // add int and float
-        public override void InATheclass(comp5210.node.ATheclass node)
+        public override void InATheclass(comp5210.node.AProgram node)
         {
             BasicType inttype = new BasicType();
             inttype.name = "int";
             BasicType flttype = new BasicType();
             flttype.name = "float";
+            BasicType strtype = new BasicType();
+            strtype.name = "string";
             stringhash.Add(inttype.name, inttype);
             stringhash.Add(flttype.name, flttype);
+            stringhash.Add(strtype.name, strtype);
         }
 
         // override the case to change the order, this way processes them
         // backwards (for no good reason)
-        public override void CaseAMoreDecls(comp5210.node.AMoreDecls node)
+        public override void CaseAMoreDecls(comp5210.node.AM node)
         {
             InAMoreDecls(node);
             if (node.GetDecl() != null)
