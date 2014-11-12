@@ -76,16 +76,13 @@ namespace Davis_compiler
         {
             base.OutANoneFormalParam(node);
         }
-        public override void OutANoneformalparam(comp5210.node.ANoneFormalParam node)
-        {
-        }
         //fix
-        public override void OutATypeSecondParam(comp5210.node.ATypeSecondParam node)
-        {
-        }
-        public override void OutANoneSecondParam(comp5210.node.ANoneSecondParam node)
-        {
-        }
+ //       public override void OutATypeSecondParam(comp5210.node.ATypeSecondParam node)
+ //       {
+ //       }
+ //       public override void OutANoneSecondParam(comp5210.node.ANoneSecondParam node)
+ //       {
+  //      }
         //end fix
         public override void OutAIfsStuff(comp5210.node.AIfsStuff node)
         {
