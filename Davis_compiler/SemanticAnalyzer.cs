@@ -21,13 +21,16 @@ namespace Davis_compiler
             inttype.name = "int";
             BasicType flttype = new BasicType();
             flttype.name = "float";
-            BasicType strtype = new BasicType();
-            strtype.name = "string";
+            BoolType booltype = new BoolType();
+            booltype.name = "boolean";
             stringhash.Add(inttype.name, inttype);
             stringhash.Add(flttype.name, flttype);
-            stringhash.Add(strtype.name, strtype);
+            stringhash.Add(booltype.name, booltype);
         }
 
+        //How do we know if we use InA or OutA?
+        //What types dd you use?
+        //How do we know if its void or not
         // override the case to change the order, this way processes them
         // backwards (for no good reason)
         //        public override void CaseAMoreDecls(comp5210.node.AM node)

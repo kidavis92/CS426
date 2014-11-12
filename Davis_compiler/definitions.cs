@@ -21,6 +21,10 @@ namespace Davis_compiler
         {
             public TypeDefinition vartype;
         }
+        public class BoolType : TypeDefinition
+        {
+        }
+        
     
 
 }
