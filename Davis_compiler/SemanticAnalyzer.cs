@@ -110,7 +110,7 @@ namespace Davis_compiler
         }
         public override void OutAMainMethodsDecl(comp5210.node.AMainMethodsDecl node)
         {
-            base.OutAMainMethodsDecl(node);
+
         }
         public override void OutAEmptyparaMethodsDecl(comp5210.node.AEmptyparaMethodsDecl node)
         {
@@ -216,10 +216,11 @@ namespace Davis_compiler
         {
             base.OutAConstsExpressParent(node);
         }
+
+        //Lookup variable, add to Node Hash
         public override void OutANegvarExpressConsts(comp5210.node.ANegvarExpressConsts node)
         {
-            //Lookup, Type Check, add to Node Hash
-            //Expression use Node Hash to look up if Name Strin hash to look up
+            //Lookup the variable
             Definition defn;
             stringhash.TryGetValue(node.GetVarNames().Text, out defn);
             if (!stringhash.TryGetValue(node.GetVarNames().Text, out defn))
@@ -227,11 +228,11 @@ namespace Davis_compiler
                 Console.WriteLine("[" + node.GetVarNames().Text + "]: " +
                      node.GetVarNames().Text + " is not defined.");
             }
-            // check to make sure what we got back is a type
-            else if (!(defn is TypeDefinition))
+            // check to make sure what we got back is a variable definition
+            else if (!(defn is VariableDefinition))
             {
                 Console.WriteLine("[" + node.GetType() + "]: " +
-                   node.GetVarNames().Text + " is an invalid type.");
+                   node.GetVarNames().Text + " is an invalid variable.");
             }
             else
             {
@@ -240,23 +241,192 @@ namespace Davis_compiler
                 // variable name isn't already defined look it up in the sringhash.
                 if (!stringhash.ContainsKey(node.GetVarNames().Text))
                 {
-                    VariableDefinition vardefn = new VariableDefinition();
-                    vardefn.name = node.GetVarNames().Text;
-                    vardefn.vartype = defn as TypeDefinition;
-                    stringhash.Add(vardefn.name, vardefn);
+                    nodehash.Add(node, (defn as VariableDefinition).vartype);
                 }
-                //              
+                else
+                {
+                    Console.WriteLine("[" + node.GetVarNames().Text + "]: " +
+                     node.GetVarNames().Text + " is already defined.");
+                }          
             }
-            //Checking
-            nodehash.Add(node, (defn as VariableDefinition).vartype);
-            //Must have node hash crap
-            //string hash has type, node hash has type and data
+            
         }
-    
+        //Lookup, Type Check, add to Node Hash
         public override void OutANegintExpressConsts(comp5210.node.ANegintExpressConsts node)
         {
-            //Lookup, Type Check, add to Node Hash
-            //Expression use Node Hash to look up if Name Strin hash to look up
+            Definition defn;
+
+            //Lookup the Type
+            stringhash.TryGetValue(node.GetType().Name, out defn);
+            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            {
+                Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is not defined.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // type name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetType().Name))
+                {
+                    nodehash.Add(node, (defn as Definition));
+                }
+                else
+                {
+                    Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is already defined.");
+                }   
+                         
+            }
+            
+          
+        }
+        public override void OutANegfloExpressConsts(comp5210.node.ANegfloExpressConsts node)
+        {
+            Definition defn;
+
+            //Lookup the Type
+            stringhash.TryGetValue(node.GetType().Name, out defn);
+            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            {
+                Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is not defined.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // type name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetType().Name))
+                {
+                    nodehash.Add(node, (defn as Definition));
+                }
+                else
+                {
+                    Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is already defined.");
+                }   
+                         
+            }
+        }
+        public override void OutAVarExpressConsts(comp5210.node.AVarExpressConsts node)
+        {
+            base.OutAVarExpressConsts(node);
+        }
+        public override void OutAIntsExpressConsts(comp5210.node.AIntsExpressConsts node)
+        {
+            Definition defn;
+
+            //Lookup the Type
+            stringhash.TryGetValue(node.GetType().Name, out defn);
+            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            {
+                Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is not defined.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // type name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetType().Name))
+                {
+                    nodehash.Add(node, (defn as Definition));
+                }
+                else
+                {
+                    Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is already defined.");
+                }   
+                         
+            }
+        }
+        public override void OutAFloExpressConsts(comp5210.node.AFloExpressConsts node)
+        {
+            Definition defn;
+
+            //Lookup the Type
+            stringhash.TryGetValue(node.GetType().Name, out defn);
+            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            {
+                Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is not defined.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // type name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetType().Name))
+                {
+                    nodehash.Add(node, (defn as Definition));
+                }
+                else
+                {
+                    Console.WriteLine("[" + node.GetType().Name + "]: " +
+                     node.GetType().Name + " is already defined.");
+                }   
+                         
+            }
+        }
+        public override void OutAArrayExpressConsts(comp5210.node.AArrayExpressConsts node)
+        {
+            base.OutAArrayExpressConsts(node);
+        }
+        public override void OutADeclarationsDeclarations(comp5210.node.ADeclarationsDeclarations node)
+        {
+            base.OutADeclarationsDeclarations(node);
+        }
+        public override void OutADeclarationDeclarations(comp5210.node.ADeclarationDeclarations node)
+        {
+            base.OutADeclarationDeclarations(node);
+        }
+        public override void OutAConstantsDeclaration(comp5210.node.AConstantsDeclaration node)
+        {
+            base.OutAConstantsDeclaration(node);
+        }
+        public override void OutAVarsDeclaration(comp5210.node.AVarsDeclaration node)
+        {
+            base.OutAVarsDeclaration(node);
+        }
+        public override void OutAVarDeclOptions(comp5210.node.AVarDeclOptions node)
+        {
+            Definition defn;
+            stringhash.TryGetValue(node.GetVar().Text, out defn);
+            if (!stringhash.TryGetValue(node.GetVar().Text, out defn))
+            {
+                Console.WriteLine("[" + node.GetVar().Text + "]: " +
+                    node.GetVar().Text + " is not defined.");
+            }
+            // check to make sure what we got back is a type
+            else if (!(defn is VariableDefinition))
+            {
+                Console.WriteLine("[" + node.GetVar() + "]: " +
+                   node.GetVar().Text + " is an invalid variable.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetVar().Text))
+                {
+                    nodehash.Add(node, (defn as VariableDefinition).vartype);
+                }
+                else
+                {
+                    Console.WriteLine("[" + node.GetVar().Text + "]: " +
+                     node.GetVar().Text + " is already defined.");
+                }                 
+            }
+        }
+        public override void OutAArrDeclOptions(comp5210.node.AArrDeclOptions node)
+        {
+            base.OutAArrDeclOptions(node);
+        }
+        public override void OutAConstantine(comp5210.node.AConstantine node)
+        {
             Definition defn;
             stringhash.TryGetValue(node.GetType().Name, out defn);
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
@@ -288,54 +458,6 @@ namespace Davis_compiler
             nodehash.Add(node, (defn as VariableDefinition).vartype);
             //Must have node hash crap
             //string hash has type, node hash has type and data
-        }
-        public override void OutANegfloExpressConsts(comp5210.node.ANegfloExpressConsts node)
-        {
-            base.OutANegfloExpressConsts(node);
-        }
-        public override void OutAVarExpressConsts(comp5210.node.AVarExpressConsts node)
-        {
-            base.OutAVarExpressConsts(node);
-        }
-        public override void OutAIntsExpressConsts(comp5210.node.AIntsExpressConsts node)
-        {
-            base.OutAIntsExpressConsts(node);
-        }
-        public override void OutAFloExpressConsts(comp5210.node.AFloExpressConsts node)
-        {
-            base.OutAFloExpressConsts(node);
-        }
-        public override void OutAArrayExpressConsts(comp5210.node.AArrayExpressConsts node)
-        {
-            base.OutAArrayExpressConsts(node);
-        }
-        public override void OutADeclarationsDeclarations(comp5210.node.ADeclarationsDeclarations node)
-        {
-            base.OutADeclarationsDeclarations(node);
-        }
-        public override void OutADeclarationDeclarations(comp5210.node.ADeclarationDeclarations node)
-        {
-            base.OutADeclarationDeclarations(node);
-        }
-        public override void OutAConstantsDeclaration(comp5210.node.AConstantsDeclaration node)
-        {
-            base.OutAConstantsDeclaration(node);
-        }
-        public override void OutAVarsDeclaration(comp5210.node.AVarsDeclaration node)
-        {
-            base.OutAVarsDeclaration(node);
-        }
-        public override void OutAVarDeclOptions(comp5210.node.AVarDeclOptions node)
-        {
-            base.OutAVarDeclOptions(node);
-        }
-        public override void OutAArrDeclOptions(comp5210.node.AArrDeclOptions node)
-        {
-            base.OutAArrDeclOptions(node);
-        }
-        public override void OutAConstantine(comp5210.node.AConstantine node)
-        {
-            base.OutAConstantine(node);
         }
         public override void OutAPosintNumConsts(comp5210.node.APosintNumConsts node)
         {

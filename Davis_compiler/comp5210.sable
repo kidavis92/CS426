@@ -119,7 +119,7 @@ Productions
 	//Recursive grammar that allows for multiple declarations to be made
 	declarations = {declarations} declarations declaration | {declaration} declaration;
 	declaration = {constants} constantine | {vars} decl_options line_ender;
-	decl_options = {var} [type]:var_names [var]:var_names | {arr} [type]:var_names [var]:var_names left_bracket ints right_bracket;
+	decl_options = {var} [typename]:var_names [var]:var_names | {arr} [typename]:var_names [var]:var_names left_bracket ints right_bracket;
 	
 	//Grammar that allows for constants to be initialized
 	constantine = constantinople [id1]:var_names [id2]:var_names assignments num_consts line_ender;

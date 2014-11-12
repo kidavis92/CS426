@@ -2219,9 +2219,9 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAVarDeclOptions(AVarDeclOptions node)
     {
         InAVarDeclOptions(node);
-        if(node.GetType() != null)
+        if(node.GetTypename() != null)
         {
-            node.GetType().Apply(this);
+            node.GetTypename().Apply(this);
         }
         if(node.GetVar() != null)
         {
@@ -2242,9 +2242,9 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAArrDeclOptions(AArrDeclOptions node)
     {
         InAArrDeclOptions(node);
-        if(node.GetType() != null)
+        if(node.GetTypename() != null)
         {
-            node.GetType().Apply(this);
+            node.GetTypename().Apply(this);
         }
         if(node.GetVar() != null)
         {
@@ -4062,9 +4062,9 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetVar().Apply(this);
         }
-        if(node.GetType() != null)
+        if(node.GetTypename() != null)
         {
-            node.GetType().Apply(this);
+            node.GetTypename().Apply(this);
         }
         OutAVarDeclOptions(node);
     }
@@ -4097,9 +4097,9 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetVar().Apply(this);
         }
-        if(node.GetType() != null)
+        if(node.GetTypename() != null)
         {
-            node.GetType().Apply(this);
+            node.GetTypename().Apply(this);
         }
         OutAArrDeclOptions(node);
     }

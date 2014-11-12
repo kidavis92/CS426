@@ -8921,7 +8921,7 @@ public sealed class AVarsDeclaration : PDeclaration
 }
 public sealed class AVarDeclOptions : PDeclOptions
 {
-    private TVarNames _type_;
+    private TVarNames _typename_;
     private TVarNames _var_;
 
     public AVarDeclOptions ()
@@ -8929,18 +8929,18 @@ public sealed class AVarDeclOptions : PDeclOptions
     }
 
     public AVarDeclOptions (
-            TVarNames _type_,
+            TVarNames _typename_,
             TVarNames _var_
     )
     {
-        SetType (_type_);
+        SetTypename (_typename_);
         SetVar (_var_);
     }
 
     public override Object Clone()
     {
         return new AVarDeclOptions (
-            (TVarNames)CloneNode (_type_),
+            (TVarNames)CloneNode (_typename_),
             (TVarNames)CloneNode (_var_)
         );
     }
@@ -8950,16 +8950,16 @@ public sealed class AVarDeclOptions : PDeclOptions
         ((Analysis) sw).CaseAVarDeclOptions(this);
     }
 
-    public TVarNames GetType ()
+    public TVarNames GetTypename ()
     {
-        return _type_;
+        return _typename_;
     }
 
-    public void SetType (TVarNames node)
+    public void SetTypename (TVarNames node)
     {
-        if(_type_ != null)
+        if(_typename_ != null)
         {
-            _type_.Parent(null);
+            _typename_.Parent(null);
         }
 
         if(node != null)
@@ -8972,7 +8972,7 @@ public sealed class AVarDeclOptions : PDeclOptions
             node.Parent(this);
         }
 
-        _type_ = node;
+        _typename_ = node;
     }
     public TVarNames GetVar ()
     {
@@ -9002,16 +9002,16 @@ public sealed class AVarDeclOptions : PDeclOptions
     public override string ToString()
     {
         return ""
-            + ToString (_type_)
+            + ToString (_typename_)
             + ToString (_var_)
         ;
     }
 
     internal override void RemoveChild(Node child)
     {
-        if ( _type_ == child )
+        if ( _typename_ == child )
         {
-            _type_ = null;
+            _typename_ = null;
             return;
         }
         if ( _var_ == child )
@@ -9023,9 +9023,9 @@ public sealed class AVarDeclOptions : PDeclOptions
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _type_ == oldChild )
+        if ( _typename_ == oldChild )
         {
-            SetType ((TVarNames) newChild);
+            SetTypename ((TVarNames) newChild);
             return;
         }
         if ( _var_ == oldChild )
@@ -9038,7 +9038,7 @@ public sealed class AVarDeclOptions : PDeclOptions
 }
 public sealed class AArrDeclOptions : PDeclOptions
 {
-    private TVarNames _type_;
+    private TVarNames _typename_;
     private TVarNames _var_;
     private TLeftBracket _left_bracket_;
     private TInts _ints_;
@@ -9049,14 +9049,14 @@ public sealed class AArrDeclOptions : PDeclOptions
     }
 
     public AArrDeclOptions (
-            TVarNames _type_,
+            TVarNames _typename_,
             TVarNames _var_,
             TLeftBracket _left_bracket_,
             TInts _ints_,
             TRightBracket _right_bracket_
     )
     {
-        SetType (_type_);
+        SetTypename (_typename_);
         SetVar (_var_);
         SetLeftBracket (_left_bracket_);
         SetInts (_ints_);
@@ -9066,7 +9066,7 @@ public sealed class AArrDeclOptions : PDeclOptions
     public override Object Clone()
     {
         return new AArrDeclOptions (
-            (TVarNames)CloneNode (_type_),
+            (TVarNames)CloneNode (_typename_),
             (TVarNames)CloneNode (_var_),
             (TLeftBracket)CloneNode (_left_bracket_),
             (TInts)CloneNode (_ints_),
@@ -9079,16 +9079,16 @@ public sealed class AArrDeclOptions : PDeclOptions
         ((Analysis) sw).CaseAArrDeclOptions(this);
     }
 
-    public TVarNames GetType ()
+    public TVarNames GetTypename ()
     {
-        return _type_;
+        return _typename_;
     }
 
-    public void SetType (TVarNames node)
+    public void SetTypename (TVarNames node)
     {
-        if(_type_ != null)
+        if(_typename_ != null)
         {
-            _type_.Parent(null);
+            _typename_.Parent(null);
         }
 
         if(node != null)
@@ -9101,7 +9101,7 @@ public sealed class AArrDeclOptions : PDeclOptions
             node.Parent(this);
         }
 
-        _type_ = node;
+        _typename_ = node;
     }
     public TVarNames GetVar ()
     {
@@ -9203,7 +9203,7 @@ public sealed class AArrDeclOptions : PDeclOptions
     public override string ToString()
     {
         return ""
-            + ToString (_type_)
+            + ToString (_typename_)
             + ToString (_var_)
             + ToString (_left_bracket_)
             + ToString (_ints_)
@@ -9213,9 +9213,9 @@ public sealed class AArrDeclOptions : PDeclOptions
 
     internal override void RemoveChild(Node child)
     {
-        if ( _type_ == child )
+        if ( _typename_ == child )
         {
-            _type_ = null;
+            _typename_ = null;
             return;
         }
         if ( _var_ == child )
@@ -9242,9 +9242,9 @@ public sealed class AArrDeclOptions : PDeclOptions
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _type_ == oldChild )
+        if ( _typename_ == oldChild )
         {
-            SetType ((TVarNames) newChild);
+            SetTypename ((TVarNames) newChild);
             return;
         }
         if ( _var_ == oldChild )
