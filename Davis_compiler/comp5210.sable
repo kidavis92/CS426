@@ -68,7 +68,8 @@ Tokens
 IgnoredTokens
 	whitespace, 
 	comment;
-	
+	// test 3
+// comment
 Productions
 	program = constants main_program methods;
 
