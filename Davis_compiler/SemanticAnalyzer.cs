@@ -27,10 +27,42 @@ namespace Davis_compiler
             stringhash.Add(flttype.name, flttype);
             stringhash.Add(booltype.name, booltype);
         }
-
-        //How do we know if we use InA or OutA?
-        //What types dd you use?
-        //How do we know if its void or not
+        public override void OutANegvarExpressConsts(comp5210.node.ANegvarExpressConsts node)
+        {
+            //Lookup, Type Check, add to Node Hash
+                //Expression use Node Hash to look up if Name Strin hash to look up
+            Definition defn;
+            stringhash.TryGetValue(node.GetVarNames().Text, out defn);
+            if (!stringhash.TryGetValue(node.GetVarNames().Text, out defn))
+                   {
+                       Console.WriteLine("[" + node.GetVarNames().Text + "]: " +
+                            node.GetVarNames().Text + " is not defined.");
+                  }
+        // check to make sure what we got back is a type
+                   else if (!(defn is TypeDefinition))
+                    {
+                       Console.WriteLine("[" + node.GetType() + "]: " +
+                          node.GetVarNames().Text + " is an invalid type.");
+                 }
+                  else
+                 {
+        // add this variable to the hash table
+        // note you need to add checks to make sure this 
+        // variable name isn't already defined look it up in the sringhash.
+                       if(!stringhash.ContainsKey(node.GetVarNames().Text)){
+                           VariableDefinition vardefn = new VariableDefinition();
+                           vardefn.name = node.GetVarNames().Text;
+                           vardefn.vartype = defn as TypeDefinition;
+                           stringhash.Add(vardefn.name, vardefn);
+                       }
+        //              
+                  }
+            //Checking
+            nodehash.Add(node, (defn as VariableDefinition).vartype);
+            //Must have node hash crap
+            //string hash has type, node hash has type and data
+        }
+        
         // override the case to change the order, this way processes them
         // backwards (for no good reason)
         //        public override void CaseAMoreDecls(comp5210.node.AM node)
