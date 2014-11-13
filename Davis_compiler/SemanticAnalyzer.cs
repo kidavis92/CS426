@@ -257,7 +257,7 @@ namespace Davis_compiler
             Definition defn;
 
             //Lookup the Type
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
@@ -266,17 +266,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // type name isn't already defined look it up in the sringhash.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as Definition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                     node.GetType().Name + " is already defined.");
-                }   
+
                          
             }
             
@@ -287,7 +279,7 @@ namespace Davis_compiler
             Definition defn;
 
             //Lookup the Type
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
@@ -311,7 +303,7 @@ namespace Davis_compiler
             Definition defn;
 
             //Lookup the Type
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
@@ -331,7 +323,7 @@ namespace Davis_compiler
             Definition defn;
 
             //Lookup the Type
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
