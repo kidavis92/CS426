@@ -296,17 +296,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // type name isn't already defined look it up in the sringhash.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as Definition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                     node.GetType().Name + " is already defined.");
-                }   
+ 
                          
             }
         }
@@ -328,17 +320,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // type name isn't already defined look it up in the sringhash.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as Definition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                     node.GetType().Name + " is already defined.");
-                }   
+
                          
             }
         }
@@ -356,17 +340,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // type name isn't already defined look it up in the sringhash.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as Definition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                     node.GetType().Name + " is already defined.");
-                }   
+  
                          
             }
         }
@@ -486,19 +462,9 @@ namespace Davis_compiler
             }
             else
             {
-                // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
-                    nodehash.Add(node, (defn as TypeDefinition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                    node.GetType().Name + " is already defined.");
-                    nodehash.Add(node, (defn as TypeDefinition));
-                }
+                // add this type to the hash table
+
+                nodehash.Add(node, (defn as TypeDefinition));
             }
         }
         public override void OutANegintNumConsts(comp5210.node.ANegintNumConsts node)
@@ -519,18 +485,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as TypeDefinition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                    node.GetType().Name + " is already defined.");
-                    nodehash.Add(node, (defn as TypeDefinition));
-                }
+
             }
         }
         public override void OutAPosfloNumConsts(comp5210.node.APosfloNumConsts node)
@@ -551,18 +508,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as TypeDefinition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                    node.GetType().Name + " is already defined.");
-                    nodehash.Add(node, (defn as TypeDefinition));
-                }
+
             }
         }
         public override void OutANegfloNumConsts(comp5210.node.ANegfloNumConsts node)
@@ -583,18 +531,9 @@ namespace Davis_compiler
             else
             {
                 // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                if (!stringhash.ContainsKey(node.GetType().Name))
-                {
+
                     nodehash.Add(node, (defn as TypeDefinition));
-                }
-                else
-                {
-                    Console.WriteLine("[" + node.GetType().Name + "]: " +
-                    node.GetType().Name + " is already defined.");
-                    nodehash.Add(node, (defn as TypeDefinition));
-                }
+
             }
         }
         public override void OutAVarAssign(comp5210.node.AVarAssign node)
