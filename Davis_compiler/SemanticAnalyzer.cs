@@ -384,16 +384,16 @@ namespace Davis_compiler
         }
         public override void OutAConstantsDeclaration(comp5210.node.AConstantsDeclaration node)
         {
-            base.OutAConstantsDeclaration(node);
+            
         }
         public override void OutAVarsDeclaration(comp5210.node.AVarsDeclaration node)
         {
-            base.OutAVarsDeclaration(node);
+            
         }
         public override void OutAVarDeclOptions(comp5210.node.AVarDeclOptions node)
         {
             Definition defn;
-            stringhash.TryGetValue(node.GetVar().Text, out defn);
+          
             if (!stringhash.TryGetValue(node.GetVar().Text, out defn))
             {
                 Console.WriteLine("[" + node.GetVar().Text + "]: " +
@@ -472,7 +472,7 @@ namespace Davis_compiler
         public override void OutAPosintNumConsts(comp5210.node.APosintNumConsts node)
         {
             Definition defn;
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
@@ -504,7 +504,7 @@ namespace Davis_compiler
         public override void OutANegintNumConsts(comp5210.node.ANegintNumConsts node)
         {
             Definition defn;
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
@@ -536,7 +536,7 @@ namespace Davis_compiler
         public override void OutAPosfloNumConsts(comp5210.node.APosfloNumConsts node)
         {
             Definition defn;
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
@@ -568,7 +568,7 @@ namespace Davis_compiler
         public override void OutANegfloNumConsts(comp5210.node.ANegfloNumConsts node)
         {
             Definition defn;
-            stringhash.TryGetValue(node.GetType().Name, out defn);
+
             if (!stringhash.TryGetValue(node.GetType().Name, out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
