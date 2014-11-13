@@ -174,7 +174,28 @@ namespace Davis_compiler
         }
         public override void OutAEqsExpressComp(comp5210.node.AEqsExpressComp node)
         {
-            base.OutAEqsExpressComp(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetExpressMd(), out lhs);
+            nodehash.TryGetValue(node.GetExpressParent(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
         }
         public override void OutANoteqsExpressComp(comp5210.node.ANoteqsExpressComp node)
         {
@@ -198,23 +219,68 @@ namespace Davis_compiler
         }
         public override void OutAMultExpressMd(comp5210.node.AMultExpressMd node)
         {
-            base.OutAMultExpressMd(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetExpressMd(), out lhs);
+            nodehash.TryGetValue(node.GetExpressParent(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetTimes().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetTimes().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetTimes().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            nodehash.Add(node, rhs);
         }
         public override void OutADivExpressMd(comp5210.node.ADivExpressMd node)
         {
-            base.OutADivExpressMd(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetExpressMd(), out lhs);
+            nodehash.TryGetValue(node.GetExpressParent(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            nodehash.Add(node, rhs);
         }
+
         public override void OutAParentExpressMd(comp5210.node.AParentExpressMd node)
         {
-            base.OutAParentExpressMd(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressParent(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAParentExpressParent(comp5210.node.AParentExpressParent node)
         {
-            base.OutAParentExpressParent(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressLogic(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAConstsExpressParent(comp5210.node.AConstsExpressParent node)
         {
-            base.OutAConstsExpressParent(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressConsts(), out expr);
+            nodehash.Add(node, expr);
         }
 
         //Lookup variable, add to Node Hash
@@ -225,13 +291,13 @@ namespace Davis_compiler
             stringhash.TryGetValue(node.GetVarNames().Text, out defn);
             if (!stringhash.TryGetValue(node.GetVarNames().Text, out defn))
             {
-                Console.WriteLine("[" + node.GetVarNames().Text + "]: " +
+                Console.WriteLine("[" + node.GetVarNames().Line + "]: " +
                      node.GetVarNames().Text + " is not defined.");
             }
             // check to make sure what we got back is a variable definition
             else if (!(defn is VariableDefinition))
             {
-                Console.WriteLine("[" + node.GetType() + "]: " +
+                Console.WriteLine("[" + node.GetVarNames().Line + "]: " +
                    node.GetVarNames().Text + " is an invalid variable.");
             }
             else
@@ -245,7 +311,7 @@ namespace Davis_compiler
                 }
                 else
                 {
-                    Console.WriteLine("[" + node.GetVarNames().Text + "]: " +
+                    Console.WriteLine("[" + node.GetVarNames().Line + "]: " +
                      node.GetVarNames().Text + " is already defined.");
                 }          
             }
@@ -258,7 +324,7 @@ namespace Davis_compiler
 
             //Lookup the Type
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("int", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -280,7 +346,7 @@ namespace Davis_compiler
 
             //Lookup the Type
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("float", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -296,7 +362,35 @@ namespace Davis_compiler
         }
         public override void OutAVarExpressConsts(comp5210.node.AVarExpressConsts node)
         {
-            base.OutAVarExpressConsts(node);
+            //Lookup the variable
+            Definition defn;
+            stringhash.TryGetValue(node.GetVarNames().Text, out defn);
+            if (!stringhash.TryGetValue(node.GetVarNames().Text, out defn))
+            {
+                Console.WriteLine("[" + node.GetVarNames().Line + "]: " +
+                     node.GetVarNames().Text + " is not defined.");
+            }
+            // check to make sure what we got back is a variable definition
+            else if (!(defn is VariableDefinition))
+            {
+                Console.WriteLine("[" + node.GetVarNames().Line + "]: " +
+                   node.GetVarNames().Text + " is an invalid variable.");
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined look it up in the sringhash.
+                if (!stringhash.ContainsKey(node.GetVarNames().Text))
+                {
+                    nodehash.Add(node, (defn as VariableDefinition).vartype);
+                }
+                else
+                {
+                    Console.WriteLine("[" + node.GetVarNames().Line + "]: " +
+                     node.GetVarNames().Text + " is already defined.");
+                }
+            }
         }
         public override void OutAIntsExpressConsts(comp5210.node.AIntsExpressConsts node)
         {
@@ -304,7 +398,7 @@ namespace Davis_compiler
 
             //Lookup the Type
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("int", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -324,7 +418,7 @@ namespace Davis_compiler
 
             //Lookup the Type
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("float", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -395,19 +489,19 @@ namespace Davis_compiler
         }
         public override void OutAConstantine(comp5210.node.AConstantine node)
         {
-            Definition rhs, lhs;
+            Definition lhs, var, expr;
             // lhs = get id1 text ("int" or something)
             // rhs = get type from nodehash w/ NumConst
             //Get the rhs from the node tree
-            nodehash.TryGetValue(node.GetNumConsts(), out rhs);
+            nodehash.TryGetValue(node.GetNumConsts(), out expr);
 
-            //Get the lhs (variable)
+            //Get the lhs (type)
             if (!stringhash.TryGetValue(node.GetId1().Text, out lhs))
             {
                 Console.WriteLine("[" + node.GetId1().Text + node.GetId2().Text + "]: " +
                     node.GetId1().Text + node.GetId2().Text + " is not defined.");
             }
-            else if (!(lhs is VariableDefinition)) //Make sure lhs is a Variable
+            else if (!(lhs is TypeDefinition)) //Make sure lhs is a Variable
             {
                 Console.WriteLine("[" + node.GetAssignments().Line + "]: " +
                    node.GetId2() + " is an invalid Variable.");
@@ -419,29 +513,30 @@ namespace Davis_compiler
                 // variable name isn't already defined.
                 if (!stringhash.ContainsKey(node.GetId2().Text))
                 {
-                    nodehash.Add(node, (lhs as VariableDefinition));
+                    if (lhs == expr)
+                    {
+                        nodehash.Add(node, (lhs));
+                    }
+                    else
+                    {
+                        Console.WriteLine("[" + node.GetId2().Line + "]: " +
+                        lhs + " is a different type from " + expr);
+                        nodehash.Add(node, (lhs));
+                    }
                 }
                 else
                 {
                     Console.WriteLine("[" + node.GetId2().Text + "]: " +
                     node.GetId2().Text + " is already defined.");
-                    nodehash.Add(node, (lhs as VariableDefinition));
+                    nodehash.Add(node, (lhs));
                 }
             }
-
-            // make sure left hand side and right hand side match
-            if ((lhs as VariableDefinition).vartype != rhs)
-            {
-                Console.WriteLine("[" + node + "]: " +
-                    "types don't match");
-            }
-
         }
         public override void OutAPosintNumConsts(comp5210.node.APosintNumConsts node)
         {
             Definition defn;
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("int", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -463,7 +558,7 @@ namespace Davis_compiler
         {
             Definition defn;
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("int", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -486,7 +581,7 @@ namespace Davis_compiler
         {
             Definition defn;
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("float", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
@@ -509,7 +604,7 @@ namespace Davis_compiler
         {
             Definition defn;
 
-            if (!stringhash.TryGetValue(node.GetType().Name, out defn))
+            if (!stringhash.TryGetValue("float", out defn))
             {
                 Console.WriteLine("[" + node.GetType().Name + "]: " +
                      node.GetType().Name + " is not defined.");
