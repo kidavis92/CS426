@@ -127,14 +127,13 @@ class TestParser
 {
   public static void Main(String[] args)
   {
-    Lexer l = new Lexer(new System.IO.StreamReader(args[0]));
-    Parser p = new Parser (l);
-    Start s = p.Parse ();
+      TextReader tr = new StreamReader(args[0]);
+      Lexer l = new Lexer(tr);
+      Parser p = new Parser(l);
+      Start s = p.Parse();
 
-    TextPrinter printer = new TextPrinter ();
-    if ( args.Length > 0 && args[0] == "-ansi" )
-        printer.SetColor(true);
+      Davis_compiler.SemanticAnalyzer sa = new Davis_compiler.SemanticAnalyzer();
 
-    s.Apply(printer);
+      s.Apply(sa);
   }
 }
