@@ -27,35 +27,48 @@ namespace Davis_compiler
             stringhash.Add(flttype.name, flttype);
             stringhash.Add(booltype.name, booltype);
         }
-
+        // do not understand how to do recursive calls
         public override void OutARecursStatements(comp5210.node.ARecursStatements node)
         {
             base.OutARecursStatements(node);
         }
         public override void OutAOneStatements(comp5210.node.AOneStatements node)
         {
-            base.OutAOneStatements(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetStatement(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAIfsStatement(comp5210.node.AIfsStatement node)
         {
-            base.OutAIfsStatement(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetIfState(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAMethStatement(comp5210.node.AMethStatement node)
         {
-            base.OutAMethStatement(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetMethodsCall(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAWhilesStatement(comp5210.node.AWhilesStatement node)
         {
-            base.OutAWhilesStatement(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetWhileState(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutADeclStatement(comp5210.node.ADeclStatement node)
         {
-            base.OutADeclStatement(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetDeclaration(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAAssStatement(comp5210.node.AAssStatement node)
         {
-            base.OutAAssStatement(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetAssign(), out expr);
+            nodehash.Add(node, expr);
         }
+        //if/while statements
         public override void OutAIfsIfState(comp5210.node.AIfsIfState node)
         {
             base.OutAIfsIfState(node);
@@ -74,31 +87,61 @@ namespace Davis_compiler
         }
         public override void OutANoparamsMethodsCall(comp5210.node.ANoparamsMethodsCall node)
         {
-            base.OutANoparamsMethodsCall(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetVarNames(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutARecurActualParams(comp5210.node.ARecurActualParams node)
         {
-            base.OutARecurActualParams(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetActualParams(), out lhs);
+            nodehash.TryGetValue(node.GetActualConsts(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetComma().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetComma().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetComma().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            nodehash.Add(node, rhs);
         }
         public override void OutAOneActualParams(comp5210.node.AOneActualParams node)
         {
-            base.OutAOneActualParams(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetActualConsts(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAExpressionsActualConsts(comp5210.node.AExpressionsActualConsts node)
         {
-            base.OutAExpressionsActualConsts(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressLogic(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAStringsActualConsts(comp5210.node.AStringsActualConsts node)
         {
-            base.OutAStringsActualConsts(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetSillystrings(), out expr);
+            nodehash.Add(node, expr);
         }
+        // do not understand how to do recursive
         public override void OutARecurseMethDecs(comp5210.node.ARecurseMethDecs node)
         {
             base.OutARecurseMethDecs(node);
         }
         public override void OutAOneMethDecs(comp5210.node.AOneMethDecs node)
         {
-            base.OutAOneMethDecs(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetMethodsDecl(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAParamsMethodsDecl(comp5210.node.AParamsMethodsDecl node)
         {
@@ -126,11 +169,32 @@ namespace Davis_compiler
         }
         public override void OutARecurFormalParams(comp5210.node.ARecurFormalParams node)
         {
-            base.OutARecurFormalParams(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetFormalParams(), out lhs);
+            nodehash.TryGetValue(node.GetFormalConsts(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetComma().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetComma().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetComma().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            nodehash.Add(node, rhs);
         }
         public override void OutAOneFormalParams(comp5210.node.AOneFormalParams node)
         {
-            base.OutAOneFormalParams(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetFormalConsts(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAVarsFormalConsts(comp5210.node.AVarsFormalConsts node)
         {
@@ -142,54 +206,183 @@ namespace Davis_compiler
         }
         public override void OutAOrExpressLogic(comp5210.node.AOrExpressLogic node)
         {
-            base.OutAOrExpressLogic(node);
-        }
-        public override void OutAAndExpressLogic(comp5210.node.AAndExpressLogic node)
-        {
-            base.OutAAndExpressLogic(node);
-        }
-        public override void OutANotExpressLogic(comp5210.node.ANotExpressLogic node)
-        {
-            base.OutANotExpressLogic(node);
-        }
-        public override void OutACompExpressLogic(comp5210.node.ACompExpressLogic node)
-        {
-            base.OutACompExpressLogic(node);
-        }
-        public override void OutAGteExpressComp(comp5210.node.AGteExpressComp node)
-        {
-            base.OutAGteExpressComp(node);
-        }
-        public override void OutALteExpressComp(comp5210.node.ALteExpressComp node)
-        {
-            base.OutALteExpressComp(node);
-        }
-        public override void OutALtExpressComp(comp5210.node.ALtExpressComp node)
-        {
-            base.OutALtExpressComp(node);
-        }
-        public override void OutAGtExpressComp(comp5210.node.AGtExpressComp node)
-        {
-            base.OutAGtExpressComp(node);
-        }
-        public override void OutAEqsExpressComp(comp5210.node.AEqsExpressComp node)
-        {
             Definition lhs, rhs;
-            nodehash.TryGetValue(node.GetExpressMd(), out lhs);
-            nodehash.TryGetValue(node.GetExpressParent(), out rhs);
-            if (!(lhs is BasicType))
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BoolType))
             {
-                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                Console.WriteLine("[" + node.GetOrNah().Line + "]: " +
                     lhs + " is not a basic type.");
             }
-            else if (!(rhs is BasicType))
+            else if (!(rhs is BoolType))
             {
-                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                Console.WriteLine("[" + node.GetOrNah().Line + "]: " +
                     rhs + " is not a basic type.");
             }
             else if (lhs != rhs)
             {
-                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                Console.WriteLine("[" + node.GetOrNah().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
+        }
+        public override void OutAAndExpressLogic(comp5210.node.AAndExpressLogic node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BoolType))
+            {
+                Console.WriteLine("[" + node.GetAndy().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BoolType))
+            {
+                Console.WriteLine("[" + node.GetAndy().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetAndy().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
+        }
+        // did not understand
+        public override void OutANotExpressLogic(comp5210.node.ANotExpressLogic node)
+        {
+
+        }
+        public override void OutACompExpressLogic(comp5210.node.ACompExpressLogic node)
+        {
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressComp(), out expr);
+            nodehash.Add(node, expr);
+        }
+        public override void OutAGteExpressComp(comp5210.node.AGteExpressComp node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetGreatThanEq().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetGreatThanEq().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetGreatThanEq().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
+        }
+        public override void OutALteExpressComp(comp5210.node.ALteExpressComp node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLessThanEq().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLessThanEq().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetLessThanEq().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
+        }
+        public override void OutALtExpressComp(comp5210.node.ALtExpressComp node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLesser().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLesser().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetLesser().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
+        }
+        public override void OutAGtExpressComp(comp5210.node.AGtExpressComp node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetGreater().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetGreater().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetGreater().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
+        }
+        public override void OutAEqsExpressComp(comp5210.node.AEqsExpressComp node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetEquators().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetEquators().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetEquators().Line + "]: " +
                     lhs + rhs + " are not the same type.");
             }
 
@@ -199,23 +392,86 @@ namespace Davis_compiler
         }
         public override void OutANoteqsExpressComp(comp5210.node.ANoteqsExpressComp node)
         {
-            base.OutANoteqsExpressComp(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOps1(), out lhs);
+            nodehash.TryGetValue(node.GetOps2(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetNoteqs().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetNoteqs().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetNoteqs().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            Definition boo;
+            stringhash.TryGetValue("boolean", out boo);
+            nodehash.Add(node, boo);
         }
         public override void OutAMathExpressComp(comp5210.node.AMathExpressComp node)
         {
-            base.OutAMathExpressComp(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressAs(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAAddExpressAs(comp5210.node.AAddExpressAs node)
         {
-            base.OutAAddExpressAs(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetExpressAs(), out lhs);
+            nodehash.TryGetValue(node.GetExpressMd(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            nodehash.Add(node, rhs);
         }
         public override void OutASubExpressAs(comp5210.node.ASubExpressAs node)
         {
-            base.OutASubExpressAs(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetExpressAs(), out lhs);
+            nodehash.TryGetValue(node.GetExpressMd(), out rhs);
+            if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetMinus().Line + "]: " +
+                    lhs + " is not a basic type.");
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetMinus().Line + "]: " +
+                    rhs + " is not a basic type.");
+            }
+            else if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetMinus().Line + "]: " +
+                    lhs + rhs + " are not the same type.");
+            }
+
+            nodehash.Add(node, rhs);
         }
         public override void OutAMdExpressAs(comp5210.node.AMdExpressAs node)
         {
-            base.OutAMdExpressAs(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetExpressMd(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAMultExpressMd(comp5210.node.AMultExpressMd node)
         {
@@ -436,21 +692,28 @@ namespace Davis_compiler
         {
             base.OutAArrayExpressConsts(node);
         }
+        // do not understand how to deal with recursive calls
         public override void OutADeclarationsDeclarations(comp5210.node.ADeclarationsDeclarations node)
         {
             base.OutADeclarationsDeclarations(node);
         }
         public override void OutADeclarationDeclarations(comp5210.node.ADeclarationDeclarations node)
         {
-            base.OutADeclarationDeclarations(node);
+            Definition expr;
+            nodehash.TryGetValue(node.GetDeclaration(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAConstantsDeclaration(comp5210.node.AConstantsDeclaration node)
         {
-            
+            Definition expr;
+            nodehash.TryGetValue(node.GetConstantine(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAVarsDeclaration(comp5210.node.AVarsDeclaration node)
         {
-            
+            Definition expr;
+            nodehash.TryGetValue(node.GetDeclOptions(), out expr);
+            nodehash.Add(node, expr);
         }
         public override void OutAVarDeclOptions(comp5210.node.AVarDeclOptions node)
         {
